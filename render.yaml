@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: ecommerce-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ecommerce-db
+          property: connectionString
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "60"
+
+databases:
+  - name: ecommerce-db
+    plan: free
+    databaseName: ecommerce
+    user: ecommerce
